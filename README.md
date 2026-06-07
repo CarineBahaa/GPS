@@ -10,17 +10,21 @@ It’s important not to confuse GPS with GNSS, GNSS(Global Navigation satellite 
 GPS is the United States’ satellite system, but there are other multiple systems that exist such as BeiDou, Galileo, etc…
 This satellite system (constellation) consists of 24 satellites that are separated in 6 planes, each with 4 satellites.
 
+![GPS](https://miro.medium.com/v2/resize:fit:720/format:webp/1*bEZZJ0qgUMZNt5RIp0Nnag.jpeg)
+
 *** 
 
 ## How does a GPS module work?
 
- A **GPS receiver** located in the module receives signals from 3 different satellites to produce a location, and from a 4th one to validate the information sent from the other three satellites. This is also called a lock or a fix.
+A **GPS receiver** located in the module receives signals from 3 different satellites to produce a location, and from a 4th one to validate the information sent from the other three satellites. This is also called a lock or a fix.
 A signal sent by a satellite consists of :
  a **timestamp** (when the signal was sent), and data on **where this satellite is located in the sky**.
 
 GPS works through a technique called **"Trilateration"**
 
 >   this is the process where the GPS receiver considers the satellite as the center of a sphere, then it calculates the distance traveled by the signal from the satellite to the receiver, the receiver then proceeds to find the intersection point of the 3 spheres to calculate its location.
+
+![Trilateration](https://scontent-hbe1-2.xx.fbcdn.net/v/t39.30808-6/484347099_1586304575512638_5648603372221158459_n.jpg?stp=dst-jpg_tt6&cstp=mx602x439&ctp=s602x439&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=1yMni1kxhR4Q7kNvwGCJA-I&_nc_oc=AdpCbF4cbTkBFCL4VzBvlCqjydhBAmzlYG60ekmlOlNWZ8WDIB9WoR76K5_oobW887k&_nc_zt=23&_nc_ht=scontent-hbe1-2.xx&_nc_gid=E216jg09BqcSL6Y7VOWzYg&_nc_ss=7b2a8&oh=00_Af-T3hBXQsrEQnGVAOXSbxtDMhR_VDrbyb5YartAqiq6Rg&oe=6A2B09B1)
 
 ### How does it calculate the distance between itself and the satellite?
 
@@ -46,6 +50,8 @@ Nearly all GPS receivers output data using a format called NMEA.
 >   is a common data format that most GPS modules use. NMEA data is displayed using something called a "**sentence**".
 The NMEA sentence contains several fields of data that are separated by commas to make it easier to read and parse by computers and microcontrollers.
 
+![sentence](https://docs.arduino.cc/static/15f7b0207279151b880859306d923751/a6d36/gps-nmea-0183_img01.png)
+
 This data is sent out on the serial port at an interval called the "**update rate**", most receivers update this information once per second (1Hz), but more advanced receivers are capable of multiple updates per second.
 
 There are different types of NMEA messages that a module can output : GGA, GLL, GSA, RAC, etc..
@@ -56,40 +62,40 @@ $$GPGGA,181908.00,3404.7041778,N,07044.3966270,
 W,4,13,1.00,495.144,M,29.200,M,0.10,0000*40
 ```
 
--181908.00 is the time stamp: time in hours, minutes and seconds.
+- 181908.00 is the time stamp: time in hours, minutes and seconds.
 
--3404.7041778 is the latitude:  in the DDMM.MMMMM format (degrees.decimal minutes)
+- 3404.7041778 is the latitude:  in the DDMM.MMMMM format (degrees.decimal minutes)
 
--N denotes north latitude.
+- N denotes north latitude.
 
--07044.3966270 is the longitude in the DDDMM.MMMMM format (degrees.decimal minutes)
+- 07044.3966270 is the longitude in the DDDMM.MMMMM format (degrees.decimal minutes)
 
--W denotes west longitude.
+- W denotes west longitude.
 
--4 denotes the Quality Indicator:
-+0 =  Fix not available or invalid
-+1 = Uncorrected coordinate
-+2 = Differentially correct coordinate (e.g., WAAS, DGPS)
-+4 = RTK Fix coordinate (centimeter precision)
-+5 = RTK Float (decimeter precision
+- 4 denotes the Quality Indicator:
+  + 0 =  Fix not available or invalid
+  + 1 = Uncorrected coordinate
+  + 2 = Differentially correct coordinate (e.g., WAAS, DGPS)
+  + 4 = RTK Fix coordinate (centimeter precision)
+  + 5 = RTK Float (decimeter precision)
 
--13 denotes number of satellites viewed by the module
+- 13 denotes number of satellites viewed by the module
 
--1.0 denotes the HDOP (horizontal dilution of precision)
+- 1.0 denotes the HDOP (horizontal dilution of precision)
 
--495.144 denotes altitude of the antenna
+- 495.144 denotes altitude of the antenna
 
--M denotes units of altitude (eg. meters or feet)
+- M denotes units of altitude (eg. meters or feet)
 
--29.200 denotes the geoidal separation 
+- 29.200 denotes the geoidal separation 
 
--M denotes the units used by the geoidal separation
+- M denotes the units used by the geoidal separation
 
--1.0 denotes the age of the differential correction (if exists)
+- 1.0 denotes the age of the differential correction (if exists)
 
--0000 denotes the differential correction station ID (if exists) 
+- 0000 denotes the differential correction station ID (if exists) 
 
--40 denotes the checksum
+-  40 denotes the checksum
 
 *** 
 
@@ -102,13 +108,12 @@ There are two ways we can calculate the distance and the needed angle:
 1. Haversine Formula
 2. Euclidean Geometry
 
-***
-
 ### Haversine Formula
 
 Used to calculate the great circle distance between two points (the shortest path between 2 points on a sphere).
-
 Because of the spherical shape of the Earth, it's more useful and accurate than Euclidean geometry over **large distances**.
+
+![haversine](https://images.prismic.io/sketchplanations/e1e45776-aa40-4806-820e-b5c5b8050f4b_SP+687+-+The+haversine+formula.png?auto=format&ixlib=react-9.0.3&h=1887.557603686636&w=1600)
 
 #### Haversine Formula
 
@@ -144,7 +149,7 @@ a = \sin^2\left(\frac{\Delta \phi}{2}\right)
 ```
 
 ```math
-c = 2\operatorname{atan2}(\sqrt{a},\sqrt{1-a})
+c = 2\,\mathrm{atan}(\sqrt{a},\sqrt{1-a})
 ```
 
 The distance between the current position and the waypoint is:
@@ -172,7 +177,7 @@ x = \cos(\phi_1)\sin(\phi_2)
 ```
 
 ```math
-\theta = \operatorname{atan2}(y,x)
+\theta = \mathrm{atan}(y,x)
 ```
 
 Convert the result to degrees and normalize it to the range:
@@ -191,52 +196,36 @@ This angle represents the direction from the current position to the waypoint.
 
 For relatively short distances, we can approximate the Earth as a flat plane and convert latitude and longitude into local Cartesian coordinates `(x,y)`.
 
-First calculate the differences:
+![euclidean](https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Euclidean_distance_2d.svg/500px-Euclidean_distance_2d.svg.png)
+
+- $(lat_0, lon_0)$ = reference point (origin)
+- $(lat, lon)$ = current point
+
+Convert degrees to radians:
 
 ```math
-\Delta \text{lat} = \text{lat}_2 - \text{lat}_1
+\Delta lat = (lat - lat_0)\frac{\pi}{180}
 ```
 
 ```math
-\Delta \text{lon} = \text{lon}_2 - \text{lon}_1
+\Delta lon = (lon - lon_0)\frac{\pi}{180}
 ```
 
-Convert them to meters:
+Then:
 
 ```math
-x = \Delta \text{lon} \cdot \cos(\text{lat}_{avg}) \cdot R
+x = R \cdot \Delta lon \cdot \cos(lat_0)
 ```
 
 ```math
-y = \Delta \text{lat} \cdot R
+y = R \cdot \Delta lat
 ```
 
-Where:
+where:
 
-```math
-\text{lat}_{avg} = \frac{\text{lat}_1 + \text{lat}_2}{2}
-```
-
-and all latitude and longitude values are expressed in radians.
-
-The distance is then:
-
-```math
-d = \sqrt{x^2+y^2}
-```
-
-The waypoint angle is:
-
-```math
-\theta = \operatorname{atan2}(y,x)
-```
-
-Where:
-
-* `d` = distance between the current position and waypoint
-* `x` = East-West displacement
-* `y` = North-South displacement
-* `θ` = direction toward the waypoint
+- $R = 6371000\ \text{m}$ (Earth radius)
+- $x$ = East-West distance (meters)
+- $y$ = North-South distance (meters)
 
 ***
 
@@ -249,8 +238,16 @@ Using either way, this information will be used to calculate:
 
 Those variables will be given to **PID** to control our motion going to the waypoint.
 
-> **Important Note:** there can be two ways to calculate the waypoint angle:
->
-> * **ENU (East-North-Up):** used by mathematicians, robotics, and ROS, the axes map to Earth as X=East, Y=North, and Z=Up, where the angle is calculated **counterclockwise**.
->
-> * **NED (North-East-Down):** used by aviation, marine, and some GNSS packages, the axes map to X=North, Y=East, and Z=Down, where the angle is calculated **clockwise**.
+**Important Note:** there can be two ways to calculate the waypoint angle:
+ * **ENU (East-North-Up):** used by mathematicians, robotics, and ROS, the axes map to Earth as X=East, Y=North, and Z=Up, where the angle is calculated **counterclockwise**.
+
+ * **NED (North-East-Down):** used by aviation, marine, and some GNSS packages, the axes map to X=North, Y=East, and Z=Down, where the angle is calculated **clockwise**.
+
+### Useful Resources
+* [How does GPS work](https://share.google/xHWwWpkUKImeKQfJ7)
+* [Guide to GPS](https://share.google/71MbouVArEgaxPqCL)
+* [Trilateration](https://share.google/gAXz6Lwicu3D9eQyi)
+* [GPS Basics](https://share.google/0YNmTdPDA0fX1664S) (Highly recommend checking this tutorial)
+* [NMEA Data](https://share.google/JggrUN7nTCdqCKHru) 
+* [NMEA sentence](https://share.google/v5R5Yyz5ZfTFSpKUw)
+* [Lat/Lon Conversion](https://share.google/OT9mUxxSJp8lA6rRe)
