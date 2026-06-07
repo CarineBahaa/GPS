@@ -10,17 +10,15 @@
 9. [ZED-F9P Module](#zed-f9p-gps-module)
 10. [Resources and Links](#resources-and-links)
 
-
-
 ## GPS Module
 
-To successfully navigate the vehicle through the three waypoints during theautonomuus phase, we first need to understand howaGPS module works, what data it provides, and how that data can be used for navigation.
+To successfully navigate the vehicle through the three waypoints during the autonomous phase, we first need to understand how a GPS module works, what data it provides, and how that data can be used for navigation.
 
 ## What is GPS? 
 
 GPS (Global Positioning System) is a navigating system based on receiving signals from satellites that orbit Earth. 
 
-It’s important not to confuse GPS with GNSS, GNSS(Global Navigation satellite system) is the general term for different navigation systems, while GPS is only a type of GNSS.
+It’s important not to confuse GPS with GNSS, GNSS (Global Navigation satellite system) is the general term for different navigation systems, while GPS is only a type of GNSS.
 GPS is the United States’ satellite system, but there are other multiple systems that exist such as BeiDou, Galileo, etc…
 This satellite system (constellation) consists of 24 satellites that are separated in 6 planes, each with 4 satellites.
 
@@ -61,8 +59,7 @@ Data is displayed in a Serial terminal using UART protocol, a standard GPS modul
 Nearly all GPS receivers output data using a format called NMEA.
 **ΝMEΑ (National Marine Electronics Association)**
 
->   is a common data format that most GPS modules use. NMEA data is displayed using something called a "**sentence**".
-The NMEA sentence contains several fields of data that are separated by commas to make it easier to read and parse by computers and microcontrollers.
+>   is a common data format that most GPS modules use. NMEA data is displayed using something called a "**sentence**". The NMEA sentence contains several fields of data that are separated by commas to make it easier to read and parse by computers and microcontrollers.
 
 ![sentence](https://docs.arduino.cc/static/15f7b0207279151b880859306d923751/a6d36/gps-nmea-0183_img01.png)
 
@@ -241,9 +238,8 @@ where:
 - $x$ = East-West distance (meters)
 - $y$ = North-South distance (meters)
 
-***
-
 ## Distance Error and Angle Error
+
 Using either way, this information will be used to calculate:
 
 1. **distance error**: the difference between the distance from the set waypoint with respect to the origin point, and the distance from the current position with respect to the origin point.
@@ -257,16 +253,20 @@ Those variables will be given to **PID** to control our motion going to the wayp
 
  * **NED (North-East-Down):** used by aviation, marine, and some GNSS packages, the axes map to X=North, Y=East, and Z=Down, where the angle is calculated **clockwise**.
 
+***
+
 ## ZED-F9P GPS module
-The ZED-F9P is a high precision module with multiband GNSS receiver. It has Horizontal position accuracy (CEP) of 1.5m that will help in successfully navigating to a given waypoint. ZED-F9P has several communications interfaces, including UART(which we will use), SPI, I2C and USB.
+
+The ZED-F9P is a high precision module with multiband GNSS receiver. It has horizontal position accuracy (CEP) of 1.5m that will help in successfully navigating to a given waypoint. ZED-F9P has several communications interfaces, including UART **(which we will use)**, SPI, I2C and USB.
 
 ![ZED-F9P](https://gnss.store/cdn/shop/files/1194a.jpg?v=1763485361&width=1946)
 
 ### Resources and Links
+
 * [How does GPS work](https://share.google/xHWwWpkUKImeKQfJ7)
 * [Guide to GPS](https://share.google/71MbouVArEgaxPqCL)
 * [Trilateration](https://share.google/gAXz6Lwicu3D9eQyi)
-* [GPS Basics](https://share.google/0YNmTdPDA0fX1664S) (Highly recommend checking this tutorial)
+* [GPS Basics](https://share.google/0YNmTdPDA0fX1664S) **(Highly recommend checking this tutorial)**
 * [NMEA Data](https://share.google/JggrUN7nTCdqCKHru) 
 * [NMEA sentence](https://share.google/v5R5Yyz5ZfTFSpKUw)
 * [Lat/Lon Conversion](https://share.google/OT9mUxxSJp8lA6rRe)
